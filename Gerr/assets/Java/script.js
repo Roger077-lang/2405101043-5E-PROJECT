@@ -41,7 +41,7 @@ function layout() {
     tile.style.height = size + "px";
     tile.style.left   = (BIG - size) / 2 + "px";
     tile.style.top    = `calc(50% + ${y}px - ${size / 2}px)`;
-    tile.style.opacity = abs > VISIBLE ? 0 : 1;   // yang jauh disembunyikan -> lompatan loop tak terlihat
+    tile.style.opacity = abs > VISIBLE ? 0 : 1;
     tile.style.pointerEvents = abs > VISIBLE ? "none" : "auto";
     tile.style.zIndex = d === 0 ? 2 : 1;
     tile.classList.toggle("active", d === 0);
@@ -144,7 +144,7 @@ function openGame() {
       frame.src = d.url;
       frame.onload = () => frame.focus();
     } else {
-      gameMsg.textContent = d.title + " belum tersedia. Tambahkan atribut data-url pada tile-nya.";
+      gameMsg.textContent = d.title + " belum tersedia.";
       gameMsg.hidden = false;
     }
     loading.classList.add("done");
