@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Beranda </title>
+    <link rel="stylesheet" href="assets/CSS/style.css">
+</head>
+<body>
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-fade"></div>
+    
+    <header class="topbar">
+        <nav class="tabs">
+            <p> <a href="/Beranda.html" class="tab active"> Home </a></p>
+            <P> <a href="/All Games.html" class="tab"> Games</a></P>
+        </nav>
+
+        <div class="top-right">
+            <button class="icon-btn" aria-label="Cari"> Cari </button>
+            <button class="icon-btn" aria-label="Notifikasi"> Notiv </button>
+            <div class="avatar"></div>
+            <span class="clock" id="clock">--:--</span>
+        </div>
+    </header>
+
+    <section class="shelf" id="shelf" aria-label="Daftar game">
+        <button class="tile dark" data-title="Rekomendai" data-tagline="Temukan Rekomendai Game" data-bg="1">R</button>
+        <button class="tile dark" data-title="Favorit" data-tagline="Game Favorit anda" data-bg="1">F</button>
+        <button class="tile" data-title="Last Dance" data-url="assets/LastDance Web/index.html" data-tagline="Berdansalah dengan indah" data-bg="2">
+            <img src="assets/Foto/Logo LD.jpeg" alt="Last Dance">
+        </button>
+        <button class="tile" data-title="Game Dua" data-tagline="COMING SOON" data-bg="1" style="--c1:#1b2a6b;--c2:#3da5ff">B</button>
+        <button class="tile" data-title="Game Tiga" data-tagline="COMING SOON" data-bg="1" style="--c1:#1b2a6b;--c2:#3da5ff">C</button>
+    </section>
+
+    <main class="info">
+        <h1 class="game-title" id="gameTitle">Last Dance</h1>
+        <p class="tagline" id="tagline"> Berdansalah dengan indah </p>
+        <div class="actions">
+            <button class="btn play" id="playBtn"> Masuk </button>
+            <button class="btn more" aria-label="Lainnya">&#8943;</button>
+        </div>
+    </main>
+
+    <div class="player" id="player" aria-hidden="true">
+        <div class="player-bar">
+            <span id="playerTitle"> Gass </span>
+            <button class="btn-close" id="closeBtn"> Tutup (Esc)</button>
+        </div>
+        <iframe id="gameFrame" title="Game" allow="fullscreen; gamepad"></iframe>
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p id="loadingText">Memuat game...</p>
+        </div>
+        <div class="msg" id="gameMsg" hidden></div>
+    </div>
+
+    <script src="assets/Java/script.js"></script>
+</body>
+</html>
