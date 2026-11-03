@@ -63,12 +63,12 @@ body {
   background: linear-gradient(135deg, #ff9a3c, #c0392b);
   border: 2px solid #fff;
 }
-.clock { font-size: 1.1rem; }
+.clock { font-size: 1.5rem; }
 
 /* Kolom Game */
 .shelf {
   position: absolute;
-  left: 60px; top: 90px; bottom: 30px;
+  left: 60px; top: 100px; bottom: 30px;
   width: 140px;
   z-index: 5;
   overflow: hidden;
@@ -114,8 +114,8 @@ body {
 .btn {
   border: none; border-radius: 999px;
   font-size: 1.15rem; font-weight: 700;
-  cursor: pointer; color: #fff;
-  background: rgba(255,255,255,.22);
+  cursor: pointer; color: #ffffff;
+  background: rgba(255, 255, 255, 0.22);
   backdrop-filter: blur(8px);
   transition: background .2s, transform .2s;
 }
@@ -161,3 +161,6 @@ body {
   text-align: center; padding: 30px; font-size: 1.2rem; color: var(--muted);
 }
 .msg[hidden] { display: none; }
+
+/* Transisi */
+@view-transition { navigation: auto; }
