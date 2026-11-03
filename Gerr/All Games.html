@@ -8,21 +8,28 @@
 </head>
 <body>
     <div class="hero-bg" style="background-image: url(assets/Foto/Logo.jpeg);"></div>
+    <div class="hero-fade"></div>
 
-    <header class="topbar">
-        <nav class="tabs">
-            <p> <a href="/Gerr/Beranda.html" class="tab"> Home </a></p>
-            <P> <a href="/Gerr/All Games.html" class="tab active"> Games</a></P>
-        </nav>
+    <header id="topbar" data-page="games"></header>
+    <script src="assets/Java/topbar.js"></script>
 
-        <div class="top-right">
-            <button class="icon-btn" aria-label="Cari"> Cari </button>
-            <button class="icon-btn" aria-label="Notifikasi"> Notiv </button>
-            <div class="avatar"></div>
-            <span class="clock" id="clock">--:--</span>
+    <main class="games-page">
+        <div class="games-head">
+            <h1></h1>
+            <span></span>
+            <div class="chips">
+                <button class="chip active" type="button" data-filter="all">Semua</button>
+                <button class="chip" type="button" data-filter="fav">&#9829; Favorit</button>
+            </div>
         </div>
-    </header>
 
+        <section class="games-grid" id="gamesGrid" aria-label="Daftar game"></section>
+    </main>
+
+    <script src="assets/Java/games.js"></script>
+    <script src="assets/Java/storage.js"></script>
     <script src="assets/Java/jam.js"></script>
+    <script src="assets/Java/search.js"></script>
+    <script src="assets/Java/allgames.js"></script>
 </body>
 </html>

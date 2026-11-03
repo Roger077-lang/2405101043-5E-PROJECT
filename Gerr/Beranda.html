@@ -10,31 +10,11 @@
     <div class="hero-bg" id="heroBg"></div>
     <div class="hero-fade"></div>
     
-    <header class="topbar">
-        <nav class="tabs">
-            <p> <a href="/Gerr/Beranda.html" class="tab active"> Home </a></p>
-            <P> <a href="/Gerr/All Games.html" class="tab"> Games</a></P>
-        </nav>
+    <header id="topbar" data-page="home"></header>
+    <script src="assets/Java/topbar.js"></script>
 
-        <div class="top-right">
-            <button class="icon-btn" aria-label="Cari"> Cari </button>
-            <button class="icon-btn" aria-label="Notifikasi"> Notiv </button>
-            <div class="avatar"></div>
-            <span class="clock" id="clock">--:--</span>
-        </div>
-    </header>
+    <section class="shelf" id="shelf" aria-label="Daftar game"></section>
 
-    <section class="shelf" id="shelf" aria-label="Daftar game">
-        <button class="tile dark" data-title="Rekomendai" data-tagline="Temukan Rekomendai Game" data-bg="1">R</button>
-        <button class="tile dark" data-title="Favorit" data-tagline="Game Favorit anda" data-bg="1">F</button>
-        <button class="tile" data-title="Last Dance" data-url="assets/LastDance Web/index.html" data-tagline="Berdansalah dengan indah" data-bg="2">
-            <img src="assets/Foto/Logo LD.jpeg" alt="Last Dance">
-        </button>
-        <button class="tile" data-title="Game Dua" data-tagline="COMING SOON" data-bg="1" style="--c1:#1b2a6b;--c2:#3da5ff">B</button>
-        <button class="tile" data-title="Game Tiga" data-tagline="COMING SOON" data-bg="1" style="--c1:#1b2a6b;--c2:#3da5ff">C</button>
-        <button class="tile" data-title="Game Empat" data-tagline="COMING SOON" data-bg="1" style="--c1:#1b2a6b;--c2:#3da5ff">D</button>
-        <button class="tile" data-title="Game Lima" data-tagline="COMING SOON" data-bg="1" style="--c1:#1b2a6b;--c2:#3da5ff">E</button>
-    </section>
 
     <main class="info">
         <h1 class="game-title" id="gameTitle">Last Dance</h1>
@@ -58,7 +38,10 @@
         <div class="msg" id="gameMsg" hidden></div>
     </div>
 
+    <script src="assets/Java/games.js"></script>
+    <script src="assets/Java/storage.js"></script>
     <script src="assets/Java/jam.js"></script>
-    <script src="assets/Java/script.js"></script>
+    <script src="assets/Java/search.js"></script>
+    <script src="assets/Java/beranda.js"></script>
 </body>
 </html>
