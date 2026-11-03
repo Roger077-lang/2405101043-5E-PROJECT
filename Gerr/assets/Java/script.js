@@ -11,6 +11,8 @@ const tagEl    = document.getElementById("tagline");
 
 const tiles = [...shelf.querySelectorAll(".tile")];
 const n = tiles.length;
+const GAP = 14;
+const PAD = 20;
 
 let index = Math.max(0, tiles.findIndex(t => t.dataset.title === "Last Dance"));
 
@@ -39,7 +41,7 @@ function layout() {
 
     tile.style.width  = size + "px";
     tile.style.height = size + "px";
-    tile.style.left   = (BIG - size) / 2 + "px";
+    tile.style.left   = PAD + (BIG - size) / 2 + "px";
     tile.style.top    = `calc(50% + ${y}px - ${size / 2}px)`;
     tile.style.opacity = abs > VISIBLE ? 0 : 1;
     tile.style.pointerEvents = abs > VISIBLE ? "none" : "auto";
