@@ -212,7 +212,7 @@ body {
   font-size: .85rem; color: var(--muted);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.search-heart { color: #ff6b88; font-size: 1.2rem; }
+.search-heart { font-size: 1.2rem; }
 .search-empty { padding: 28px 16px; text-align: center; color: var(--muted); }
 
 /* All Games */

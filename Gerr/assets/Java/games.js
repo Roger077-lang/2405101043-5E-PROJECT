@@ -33,4 +33,20 @@ const GAMES = [
     letter: "C",
     color: ["#3da5ff", "#3da5ff"],
   },
+  {
+    id: "game-empat",
+    title: "Game Empat",
+    tagline: "COMING SOON",
+    url: null,
+    letter: "D",
+    color: ["#3da5ff", "#3da5ff"],
+  },
+  {
+    id: "game-lima",
+    title: "Game Lima",
+    tagline: "COMING SOON",
+    url: null,
+    letter: "E",
+    color: ["#3da5ff", "#3da5ff"],
+  },
 ];

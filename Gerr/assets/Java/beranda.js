@@ -1,5 +1,5 @@
-const LABEL_PLAY = "Masuk";
-const LABEL_OPEN = "Buka";
+const LABEL_PLAY = "Play";
+const LABEL_OPEN = "Pergi";
 
 /* Elemen */
 const shelf     = document.getElementById("shelf");
@@ -230,8 +230,8 @@ document.addEventListener("keydown", e => {
   }
   if (isPlaying()) return;
 
-  if (e.key === "ArrowDown" || e.key === "ArrowRight") go(1);
-  if (e.key === "ArrowUp"   || e.key === "ArrowLeft")  go(-1);
+  if (e.key === "ArrowDown") go(1);
+  if (e.key === "ArrowUp")  go(-1);
 
   if (e.key === "Enter") {
     if (e.target === favBtn) return;
