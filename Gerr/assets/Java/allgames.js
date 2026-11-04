@@ -3,7 +3,8 @@
   if (!grid || typeof GAMES === "undefined") return;
 
   const chips   = [...document.querySelectorAll(".chip")];
-  let filter = "all";                      // "all" atau "fav"
+  const paints = new Map();
+  let filter = "all";
 
   function el(tag, className, text) {
     const e = document.createElement(tag);
@@ -19,6 +20,12 @@
 
     const link = el("a", "card-link");
     link.href = "Beranda.html?game=" + encodeURIComponent(game.id);
+    link.addEventListener("click", e => {
+      if (typeof GameDialog === "undefined") return;
+      if (e.ctrlKey || e.metaKey || e.shiftKey || e.button === 1) return;
+      e.preventDefault();
+      GameDialog.open(game.id);
+    });
 
     const art = el("div", "card-art");
     if (game.color) {
@@ -32,7 +39,8 @@
 
     const body = el("div", "card-body");
     body.appendChild(el("div", "card-title", game.title));
-    body.appendChild(el("div", "card-tag", game.tagline || ""));
+    body.appendChild(el("div", "card-tag",
+      filter === "hist" ? "Dimainkan " + Store.history.ago(game.id) : (game.tagline || "")));
 
     link.appendChild(art);
     link.appendChild(body);
@@ -49,6 +57,7 @@
       fav.setAttribute("aria-label", (on ? "Hapus dari favorit: " : "Tambah ke favorit: ") + game.title);
     };
     paint();
+    paints.set(game.id, paint);
     fav.addEventListener("click", () => {
       Store.favorites.toggle(game.id);
       paint();
@@ -64,13 +73,23 @@
 
   /* Tampilan Grid */
   function render() {
-    const list = GAMES.filter(g => filter === "all" || Store.favorites.has(g.id));
+    paints.clear();
+    let list;
+    if (filter === "fav") {
+      list = GAMES.filter(g => Store.favorites.has(g.id));
+    } else if (filter === "hist") {
+      list = Store.history.ids().map(id => GAMES.find(g => g.id === id)).filter(Boolean);
+    } else {
+      list = GAMES;
+    }
 
     if (!list.length) {
-      const msg = el("p", "games-empty",
-        filter === "fav"
-          ? "Belum ada game favorit. Tekan \u2661 pada sebuah game untuk menambahkannya."
-          : "Belum ada game.");
+      const text = {
+        fav:  "Belum ada game favorit. Tekan \u2661 pada sebuah game untuk menambahkannya.",
+        hist: "Belum ada history. Mainkan sebuah game dulu.",
+        all:  "Belum ada game.",
+      }[filter];
+      const msg = el("p", "games-empty", text);
       grid.replaceChildren(msg);
       return;
     }
@@ -84,6 +103,11 @@
       render();
     })
   );
+
+  window.addEventListener("favorites-changed", () => {
+    if (filter === "fav") render();
+    else paints.forEach(paint => paint());
+  });
 
   render();
 })();

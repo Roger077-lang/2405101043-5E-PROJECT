@@ -2,8 +2,8 @@ const DEFAULT_BG = "assets/Foto/Logo.jpeg";
 
 // Bukan Game
 const MENUS = [
-  { id: "rekomendasi", title: "Rekomendasi", tagline: "Temukan Rekomendasi Game", letter: "R" },
-  { id: "favorit",     title: "Favorit",     tagline: "Game Favorit anda",       letter: "F" },
+  { id: "history", title: "History", tagline: "Lihat History anda", letter: "H" },
+  { id: "favorit", title: "Favorit", tagline: "Game Favorit anda", letter: "F" },
 ];
 
 // Daftar game

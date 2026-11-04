@@ -21,6 +21,18 @@ favBtn.className = "btn fav";
 favBtn.type = "button";
 playBtn.after(favBtn);
 
+// Tombol hapus dari history
+const histBtn = document.createElement("button");
+histBtn.className = "btn hist";
+histBtn.type = "button";
+histBtn.textContent = "\u2715";
+histBtn.setAttribute("aria-label", "Hapus dari history");
+histBtn.hidden = true;
+favBtn.after(histBtn);
+
+// Tombol titik tiga
+const moreBtn = document.querySelector(".btn.more");
+
 const modeLabel = document.createElement("p");
 modeLabel.className = "mode-label";
 modeLabel.textContent = "\u2665 Favorit";
@@ -71,7 +83,8 @@ backTile.setAttribute("aria-label", "Kembali ke Beranda");
 shelf.appendChild(backTile);
 
 const isMenu    = t => t.dataset.kind !== "game";
-const isFavMenu = t => t.dataset.id === "favorit";
+const isFavMenu  = t => t.dataset.id === "favorit";
+const isHistMenu = t => t.dataset.id === "history";
 
 let tiles = [];
 let n = 0;
@@ -98,12 +111,39 @@ function toggleFav() {
 }
 favBtn.addEventListener("click", toggleFav);
 
+/* History */
+histBtn.addEventListener("click", () => {
+  const t = tiles[index];
+  if (!t || isMenu(t)) return;
+  Store.history.remove(t.dataset.id);
+  setMode("history", { index, instant: false });
+});
+
+/* Popup info game */
+if (moreBtn) {
+  moreBtn.addEventListener("click", () => {
+    const t = tiles[index];
+    if (t && !isMenu(t) && typeof GameDialog !== "undefined") GameDialog.open(t.dataset.id);
+  });
+}
+
+window.addEventListener("favorites-changed", () => {
+  if (mode === "favorites") setMode("favorites", { index, instant: false });
+  else updateInfo();
+});
+
 /* Mode */
 function setMode(newMode, opt = {}) {
+  const prev = mode;
   mode = newMode;
 
   if (mode === "favorites") {
     tiles = [backTile, ...allTiles.filter(t => !isMenu(t) && isFav(t.dataset.id))];
+  } else if (mode === "history") {
+    const played = Store.history.ids()
+      .map(id => allTiles.find(t => t.dataset.kind === "game" && t.dataset.id === id))
+      .filter(Boolean);
+    tiles = [backTile, ...played];
   } else {
     tiles = [...allTiles];
   }
@@ -111,10 +151,10 @@ function setMode(newMode, opt = {}) {
 
   if (opt.index !== undefined) {
     index = Math.max(0, Math.min(opt.index, n - 1));
-  } else if (mode === "favorites") {
+  } else if (mode !== "home") {
     index = n > 1 ? 1 : 0;
   } else {
-    index = Math.max(0, tiles.findIndex(isFavMenu));
+    index = Math.max(0, tiles.findIndex(prev === "history" ? isHistMenu : isFavMenu));
   }
 
   const instant = opt.instant !== false;
@@ -175,15 +215,22 @@ function updateInfo() {
   heroBg.style.backgroundImage = `url('${d.bg}')`;
 
   if (t === backTile && n === 1) {
-    tagEl.textContent = "Belum ada game favorit. Pilih sebuah game lalu tekan \u2661.";
+    tagEl.textContent = mode === "history"
+      ? "Belum ada history. Mainkan sebuah game dulu."
+      : "Belum ada game favorit. Pilih sebuah game lalu tekan \u2661.";
+  } else if (mode === "history" && !isMenu(t)) {
+    tagEl.textContent = "Dimainkan " + Store.history.ago(d.id);
   } else {
     tagEl.textContent = d.tagline;
   }
 
-  modeLabel.hidden = mode !== "favorites";
+  modeLabel.hidden = mode === "home";
+  modeLabel.textContent = mode === "history" ? "\u21BA History" : "\u2665 Favorit";
   playBtn.textContent = isMenu(t) ? LABEL_OPEN : LABEL_PLAY;
 
+  histBtn.hidden  = !(mode === "history" && !isMenu(t));
   favBtn.hidden = isMenu(t);
+  if (moreBtn) moreBtn.hidden = isMenu(t);
   const on = isFav(d.id);
   favBtn.textContent = on ? "\u2665" : "\u2661";
   favBtn.classList.toggle("on", on);
@@ -225,7 +272,7 @@ window.addEventListener("wheel", e => {
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (isPlaying()) closeGame();
-    else if (mode === "favorites") setMode("home");
+    else if (mode !== "home") setMode("home");
     return;
   }
   if (isPlaying()) return;
@@ -234,7 +281,7 @@ document.addEventListener("keydown", e => {
   if (e.key === "ArrowUp")  go(-1);
 
   if (e.key === "Enter") {
-    if (e.target === favBtn) return;
+    if (e.target === favBtn || e.target === histBtn || e.target === moreBtn) return;
     if (e.target.closest && e.target.closest("#topbar")) return;
     e.preventDefault();
     if (!e.repeat) activate();
@@ -259,12 +306,15 @@ function activate() {
   const t = tiles[index];
   if (t === backTile)  { setMode("home"); return; }
   if (isFavMenu(t))    { setMode("favorites"); return; }
+  if (isHistMenu(t))   { setMode("history"); return; }
   openGame();
 }
 
 function openGame() {
   if (isPlaying()) return;
   const d = tiles[index].dataset;
+
+  if (d.url) Store.history.add(d.id);
 
   document.body.classList.add("playing");
   player.classList.add("open");
@@ -293,6 +343,8 @@ function closeGame() {
   player.classList.remove("open");
   player.setAttribute("aria-hidden", "true");
   document.body.classList.remove("playing");
+
+  if (mode === "history") setMode("history", { index: 1, instant: true });
 }
 
 playBtn.addEventListener("click", activate);
@@ -309,9 +361,21 @@ function selectGame(id) {
 }
 window.selectGame = selectGame;
 
+function playGame(id) {
+  if (isPlaying()) return;
+  selectGame(id);
+  openGame();
+}
+window.playGame = playGame;
+
 /* PlaY */
 const wanted     = new URLSearchParams(location.search).get("game");
 const wantedIdx  = allTiles.findIndex(t => t.dataset.kind === "game" && t.dataset.id === wanted);
 const firstGame  = allTiles.findIndex(t => t.dataset.kind === "game");
 
 setMode("home", { index: wantedIdx >= 0 ? wantedIdx : Math.max(0, firstGame), instant: true });
+
+if (new URLSearchParams(location.search).get("play") === "1" && wantedIdx >= 0 && allTiles[wantedIdx].dataset.url) {
+  window.history.replaceState(null, "", location.pathname);
+  openGame();
+}

@@ -32,6 +32,34 @@ const Store = (() => {
     },
   };
 
+  // History
+  const MAX_HISTORY = 20;
+  const history = {
+    list: () => get("history", []),
+    ids:  () => history.list().map(e => e.id),
+    has:  id => history.list().some(e => e.id === id),
+    add(id) {
+      const rest = history.list().filter(e => e.id !== id);
+      rest.unshift({ id, t: Date.now() });
+      set("history", rest.slice(0, MAX_HISTORY));
+    },
+    remove(id) { set("history", history.list().filter(e => e.id !== id)); },
+    clear()    { set("history", []); },
+    ago(id) {
+      const e = history.list().find(x => x.id === id);
+      if (!e) return "";
+      const min = Math.floor(Math.max(0, Date.now() - e.t) / 60000);
+      if (min < 1)  return "baru saja";
+      if (min < 60) return min + " menit lalu";
+      const jam = Math.floor(min / 60);
+      if (jam < 24) return jam + " jam lalu";
+      const hari = Math.floor(jam / 24);
+      if (hari === 1) return "kemarin";
+      if (hari < 7)   return hari + " hari lalu";
+      return "pada " + new Date(e.t).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+    },
+  };
+
   try {
     const old = localStorage.getItem("gerr-favorit");
     if (old !== null) {
@@ -43,5 +71,5 @@ const Store = (() => {
     }
   } catch (err) { /* abaikan */ }
 
-  return { get, set, favorites };
-})();
+  return { get, set, favorites, history };
+})()

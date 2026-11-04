@@ -164,9 +164,10 @@
 
   function choose(game) {
     close();
-    if (typeof window.selectGame === "function") {
-      window.selectGame(game.id);
-    } else {
+    if (typeof window.selectGame === "function") window.selectGame(game.id);
+    if (typeof GameDialog !== "undefined") {
+      GameDialog.open(game.id);
+    } else if (typeof window.selectGame !== "function") {
       location.href = "Beranda.html?game=" + encodeURIComponent(game.id);
     }
   }
