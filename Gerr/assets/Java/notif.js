@@ -125,9 +125,9 @@ const Notif = (() => {
     const c = (game && game.color) || ["#444", "#888"];
     thumb.style.setProperty("--c1", c[0]);
     thumb.style.setProperty("--c2", c[1]);
-    if (game && game.icon) {
+    if (game && game.bg) {
       const img = document.createElement("img");
-      img.src = game.icon;
+      img.src = game.bg;
       img.alt = "";
       img.draggable = false;
       thumb.appendChild(img);
