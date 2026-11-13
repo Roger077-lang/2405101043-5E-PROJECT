@@ -6,7 +6,7 @@
 }
 
 :root {
-  --bg: #ffffff;
+  --bg: #0b0f1a;
   --text: #fff;
   --muted: rgba(255, 255, 255, 0.65);
 }
@@ -951,6 +951,15 @@ body.page-admin {
   object-fit: cover;
   display: block;
 }
+.tile.has-img{
+  background: transparent;
+}
+.tile.has-img img {
+  object-fit: contain;
+}
+.tile.has-img.round {
+  border-radius: 50%;
+}
 .tile.dark {
   background: rgba(20, 24, 38, 0.9);
 }
@@ -1362,9 +1371,9 @@ body.page-admin {
   font-size: 2rem;
   font-weight: 900;
   color: #fff;
-  background-color: #222;
-  background-image: linear-gradient(135deg, var(--c1, #444), var(--c2, #888));
-  background-size: cover;
+  background-color: #00000050;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
   border: 2px solid rgba(255, 255, 255, 2.55);
   border-radius: 14px;

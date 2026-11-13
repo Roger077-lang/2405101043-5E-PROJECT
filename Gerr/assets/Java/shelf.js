@@ -24,6 +24,7 @@ function makeTile(item, kind) {
     b.style.setProperty("--c2", item.color[1]);
   }
   if (item.icon) {
+    b.classList.add("has-img");
     const img = document.createElement("img");
     img.src = item.icon;
     img.alt = item.title;
