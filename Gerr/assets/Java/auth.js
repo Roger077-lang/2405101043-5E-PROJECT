@@ -2,6 +2,7 @@ if (document.body.classList.contains("page-login"))
   (function () {
     const ADMIN_PASSWORD = "roger010724";
     const KEY = "gerr:role";
+    const AVATAR_KEY = "gerr:avatar";
     const users = [...document.querySelectorAll(".user[data-role]")];
     const pw = document.getElementById("pw"),
       pass = document.getElementById("pass"),
@@ -44,10 +45,20 @@ if (document.body.classList.contains("page-login"))
       pass.blur();
     }
 
+    function saveAvatar(user) {
+      const av = user.querySelector(".av");
+      const img = av && av.querySelector("img");
+      const data = img
+        ? { img: img.getAttribute("src") }
+        : { text: av ? av.textContent.trim() : "" };
+      sessionStorage.setItem(AVATAR_KEY, JSON.stringify(data));
+    }
+
     function enter() {
       const role = users[cur].dataset.role;
       if (role === "guest") {
         sessionStorage.setItem(KEY, "guest");
+        saveAvatar(users[cur]);
         location.href = "Beranda.html";
         return;
       }
@@ -58,6 +69,7 @@ if (document.body.classList.contains("page-login"))
       }
       if (pass.value === ADMIN_PASSWORD) {
         sessionStorage.setItem(KEY, "admin");
+        saveAvatar(users[cur]);
         location.href = "admin.html";
       } else {
         err.textContent = "Password salah. Coba lagi.";
@@ -112,6 +124,7 @@ if (document.body.classList.contains("page-login"))
       setTimeout(t, 10000);
     })();
     sessionStorage.removeItem(KEY);
+    sessionStorage.removeItem(AVATAR_KEY);
   })();
 
 if (document.body.classList.contains("page-admin"))

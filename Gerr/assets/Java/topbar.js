@@ -34,6 +34,24 @@
   const role = sessionStorage.getItem("gerr:role");
   const name = role === "admin" ? "Admin" : "Guest";
 
+  let pic = null;
+  try {
+    pic = JSON.parse(sessionStorage.getItem("gerr:avatar"));
+  } catch (e) {}
+  if (!pic || (!pic.img && !pic.text)) {
+    pic = role === "admin" ? { img: "assets/Foto/LogoH.png" } : { text: "G" };
+  }
+  if (pic.img) {
+    const img = document.createElement("img");
+    img.src = pic.img;
+    img.alt = "";
+    av.appendChild(img);
+    av.classList.add("has-img");
+  } else {
+    av.textContent = pic.text;
+    av.classList.add("letter");
+  }
+
   const menu = document.createElement("div");
   menu.className = "user-menu";
   menu.hidden = true;
@@ -60,6 +78,7 @@
 
   menu.querySelector(".um-out").addEventListener("click", () => {
     sessionStorage.removeItem("gerr:role");
+    sessionStorage.removeItem("gerr:avatar");
     location.href = "login.html";
   });
 })();

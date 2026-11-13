@@ -694,6 +694,25 @@ body.page-admin {
   border-radius: 50%;
   background: linear-gradient(135deg, #ff9a3c, #c0392b);
   border: 2px solid #fff;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.avatar.has-img {
+  background: var(--bg);
+}
+.avatar.letter {
+  background: #3da5ff;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1;
 }
 .clock {
   font-size: 1.5rem;
