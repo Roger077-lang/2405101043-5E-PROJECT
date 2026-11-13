@@ -11,7 +11,7 @@ const MENUS = [
     id: "favorit",
     title: "Favorit",
     tagline: "Game Favorit anda",
-    letter: "F",
+    letter: "\u2665",
   },
 ];
 
@@ -21,7 +21,7 @@ const DEFAULT_GAMES = [
     title: "Last Dance",
     tagline: "Berdansalah dengan indah",
     url: "assets/LastDance%20Web/index.html",
-    icon: "assets/Foto/IconGame/Logo%20LD.jpeg",
+    icon: "assets/Foto/IconGame/Logo%20LD.png",
     bg: "assets/Foto/BGgame/LastDanceBG.jpeg",
     color: ["#e8f3fb", "#ffffff"],
   },

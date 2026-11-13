@@ -94,7 +94,7 @@ let n = 0;
 let index = 0;
 const VISIBLE = 3;
 
-/* Looping */
+
 function layout() {
   const mobile = window.innerWidth <= 700;
   const BIG = mobile ? 84 : 130;
