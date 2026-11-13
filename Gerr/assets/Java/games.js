@@ -1,13 +1,21 @@
 const DEFAULT_BG = "assets/Foto/Logo.jpeg";
 
-// Bukan Game
 const MENUS = [
-  { id: "history", title: "History", tagline: "Lihat History anda", letter: "H" },
-  { id: "favorit", title: "Favorit", tagline: "Game Favorit anda", letter: "F" },
+  {
+    id: "history",
+    title: "History",
+    tagline: "Lihat History anda",
+    letter: "H",
+  },
+  {
+    id: "favorit",
+    title: "Favorit",
+    tagline: "Game Favorit anda",
+    letter: "F",
+  },
 ];
 
-// Daftar game
-const GAMES = [
+const DEFAULT_GAMES = [
   {
     id: "last-dance",
     title: "Last Dance",
@@ -22,6 +30,7 @@ const GAMES = [
     title: "Game Dua",
     tagline: "COMING SOON",
     url: null,
+    bg: "assets/Foto/BGclair.jpeg",
     letter: "B",
     color: ["#3da5ff", "#3da5ff"],
   },
@@ -30,6 +39,7 @@ const GAMES = [
     title: "Game Tiga",
     tagline: "COMING SOON",
     url: null,
+    bg: "assets/Foto/BGdevil.jpg",
     letter: "C",
     color: ["#3da5ff", "#3da5ff"],
   },
@@ -38,6 +48,7 @@ const GAMES = [
     title: "Game Empat",
     tagline: "COMING SOON",
     url: null,
+    bg: "assets/Foto/BGgodofwar.jpg",
     letter: "D",
     color: ["#3da5ff", "#3da5ff"],
   },
@@ -46,7 +57,27 @@ const GAMES = [
     title: "Game Lima",
     tagline: "COMING SOON",
     url: null,
+    bg: "assets/Foto/BGsekiro.jpg",
     letter: "E",
     color: ["#3da5ff", "#3da5ff"],
   },
 ];
+
+const GAMES_KEY = "gerr:games-config";
+const ROLE_KEY = "gerr:role";
+
+(function () {
+  if (!sessionStorage.getItem(ROLE_KEY)) {
+    location.replace("login.html");
+  }
+})();
+
+const ALL_GAMES = (() => {
+  try {
+    const saved = JSON.parse(localStorage.getItem(GAMES_KEY));
+    if (Array.isArray(saved)) return saved;
+  } catch (e) {}
+  return DEFAULT_GAMES.map((g) => ({ ...g, show: true }));
+})();
+const GAMES = ALL_GAMES;
+const HOME_GAMES = ALL_GAMES.filter((g) => g.show !== false);

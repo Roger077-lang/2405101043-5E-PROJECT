@@ -2,7 +2,7 @@
   const searchBtn = document.getElementById("searchBtn");
   if (!searchBtn || typeof GAMES === "undefined") return;
 
-  /* Panel */
+
   const root = document.createElement("div");
   root.className = "search";
   root.setAttribute("aria-hidden", "true");
@@ -28,25 +28,28 @@
   root.appendChild(box);
   document.body.appendChild(root);
 
-  /* Pencocokan */
-  const norm = s => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const norm = (s) =>
+    (s || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
 
   function rank(query) {
-    if (!query) return GAMES.slice();
+    const pool = GAMES;
+    if (!query) return pool.slice();
     const words = query.split(/\s+/).filter(Boolean);
-    return GAMES
-      .map(g => {
-        const title = norm(g.title);
-        const hay = title + " " + norm(g.tagline);
-        if (!words.every(w => hay.includes(w))) return null;
-        let score = 1;
-        if (title.includes(query))   score = 2;
-        if (title.startsWith(query)) score = 3;
-        return { g, score };
-      })
+    return GAMES.map((g) => {
+      const title = norm(g.title);
+      const hay = title + " " + norm(g.tagline);
+      if (!words.every((w) => hay.includes(w))) return null;
+      let score = 1;
+      if (title.includes(query)) score = 2;
+      if (title.startsWith(query)) score = 3;
+      return { g, score };
+    })
       .filter(Boolean)
       .sort((a, b) => b.score - a.score)
-      .map(r => r.g);
+      .map((r) => r.g);
   }
 
   /* Hasil */
@@ -57,7 +60,8 @@
     const wrap = document.createElement("div");
     wrap.className = "search-title";
     const t = game.title;
-    const i = query && norm(t).length === t.length ? norm(t).indexOf(query) : -1;
+    const i =
+      query && norm(t).length === t.length ? norm(t).indexOf(query) : -1;
     if (i < 0) {
       wrap.textContent = t;
     } else {
@@ -118,7 +122,9 @@
   function setActive(i, scroll) {
     if (!results.length) return;
     active = (i + results.length) % results.length;
-    [...list.children].forEach((li, k) => li.classList.toggle("active", k === active));
+    [...list.children].forEach((li, k) =>
+      li.classList.toggle("active", k === active),
+    );
     if (scroll !== false && list.children[active].scrollIntoView) {
       list.children[active].scrollIntoView({ block: "nearest" });
     }
@@ -144,7 +150,7 @@
     setActive(0, false);
   }
 
-  /* Opsi */
+
   const isOpen = () => root.classList.contains("open");
 
   function open() {
@@ -172,28 +178,47 @@
     }
   }
 
-  /* Kontrol */
+  
   searchBtn.addEventListener("click", open);
   input.addEventListener("input", render);
 
-  root.addEventListener("click", e => { if (e.target === root) close(); });
-
-  root.addEventListener("keydown", e => {
-    e.stopPropagation();
-    if (e.key === "Escape")    { e.preventDefault(); close(); }
-    if (e.key === "ArrowDown") { e.preventDefault(); setActive(active + 1); }
-    if (e.key === "ArrowUp")   { e.preventDefault(); setActive(active - 1); }
-    if (e.key === "Enter")     { e.preventDefault(); if (results[active]) choose(results[active]); }
+  root.addEventListener("click", (e) => {
+    if (e.target === root) close();
   });
 
-  ["wheel", "touchstart", "touchend"].forEach(type =>
-    root.addEventListener(type, e => e.stopPropagation(), { passive: true })
+  root.addEventListener("keydown", (e) => {
+    e.stopPropagation();
+    if (e.key === "Escape") {
+      e.preventDefault();
+      close();
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActive(active + 1);
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActive(active - 1);
+    }
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (results[active]) choose(results[active]);
+    }
+  });
+
+  ["wheel", "touchstart", "touchend"].forEach((type) =>
+    root.addEventListener(type, (e) => e.stopPropagation(), { passive: true }),
   );
 
-  document.addEventListener("keydown", e => {
+  document.addEventListener("keydown", (e) => {
     if (isOpen()) return;
-    const typing = /^(INPUT|TEXTAREA)$/.test((e.target.tagName || ""));
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") { e.preventDefault(); open(); }
-    else if (e.key === "/" && !typing) { e.preventDefault(); open(); }
+    const typing = /^(INPUT|TEXTAREA)$/.test(e.target.tagName || "");
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      open();
+    } else if (e.key === "/" && !typing) {
+      e.preventDefault();
+      open();
+    }
   });
 })();

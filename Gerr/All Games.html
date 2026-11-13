@@ -1,30 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Beranda </title>
-    <link rel="stylesheet" href="assets/CSS/style.css">
-</head>
-<body>
-    <div class="hero-bg" style="background-image: url(assets/Foto/Logo.jpeg);"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>All Games</title>
+    <link rel="stylesheet" href="assets/CSS/style.css" />
+  </head>
+  <body>
+    <div
+      class="hero-bg"
+      style="background-image: url(assets/Foto/Logo.jpeg)"
+    ></div>
     <div class="hero-fade"></div>
 
     <header id="topbar" data-page="games"></header>
     <script src="assets/Java/topbar.js"></script>
 
     <main class="games-page">
-        <div class="games-head">
-            <h1></h1>
-            <span></span>
-            <div class="chips">
-                <button class="chip active" type="button" data-filter="all">Semua</button>
-                <button class="chip" type="button" data-filter="fav">&#9829; Favorit</button>
-                <button class="chip" type="button" data-filter="hist">&#8634; History</button>
-            </div>
+      <div class="games-head">
+        <h1></h1>
+        <span></span>
+        <div class="chips">
+          <button class="chip active" type="button" data-filter="all">
+            Semua
+          </button>
+          <button class="chip" type="button" data-filter="fav">
+            &#9829; Favorit
+          </button>
+          <button class="chip" type="button" data-filter="hist">
+            &#8634; History
+          </button>
         </div>
+      </div>
 
-        <section class="games-grid" id="gamesGrid" aria-label="Daftar game"></section>
+      <section
+        class="games-grid"
+        id="gamesGrid"
+        aria-label="Daftar game"
+      ></section>
     </main>
 
     <script src="assets/Java/games.js"></script>
@@ -32,6 +45,9 @@
     <script src="assets/Java/gamedialog.js"></script>
     <script src="assets/Java/jam.js"></script>
     <script src="assets/Java/search.js"></script>
+    <script src="assets/Java/notif.js"></script>
+    <script src="assets/Java/favorit-data.js"></script>
+    <script src="assets/Java/gamegrid.js"></script>
     <script src="assets/Java/allgames.js"></script>
-</body>
+  </body>
 </html>

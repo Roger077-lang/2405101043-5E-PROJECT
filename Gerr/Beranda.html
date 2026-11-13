@@ -1,41 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Beranda </title>
-    <link rel="stylesheet" href="assets/CSS/style.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Beranda</title>
+    <link rel="stylesheet" href="assets/CSS/style.css" />
+  </head>
+  <body>
     <div class="hero-bg" id="heroBg"></div>
     <div class="hero-fade"></div>
-    
+
     <header id="topbar" data-page="home"></header>
     <script src="assets/Java/topbar.js"></script>
 
     <section class="shelf" id="shelf" aria-label="Daftar game"></section>
 
-
     <main class="info">
-        <h1 class="game-title" id="gameTitle">Last Dance</h1>
-        <p class="tagline" id="tagline"> Berdansalah dengan indah </p>
-        <div class="actions">
-            <button class="btn play" id="playBtn"> Masuk </button>
-            <button class="btn more" aria-label="Lainnya">&#8943;</button>
-        </div>
+      <h1 class="game-title" id="gameTitle">Last Dance</h1>
+      <p class="tagline" id="tagline">Berdansalah dengan indah</p>
+      <div class="actions">
+        <button class="btn play" id="playBtn">Masuk</button>
+        <button class="btn more" aria-label="Lainnya">&#8943;</button>
+      </div>
     </main>
 
     <div class="player" id="player" aria-hidden="true">
-        <div class="player-bar">
-            <span id="playerTitle"> Gass </span>
-            <button class="btn-close" id="closeBtn"> Tutup (Esc)</button>
-        </div>
-        <iframe id="gameFrame" title="Game" allow="fullscreen; gamepad"></iframe>
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p id="loadingText">Memuat game...</p>
-        </div>
-        <div class="msg" id="gameMsg" hidden></div>
+      <div class="player-bar">
+        <span id="playerTitle"> Gass </span>
+        <button class="btn-close" id="closeBtn">Tutup (Esc)</button>
+      </div>
+      <iframe id="gameFrame" title="Game" allow="fullscreen; gamepad"></iframe>
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p id="loadingText">Memuat game...</p>
+      </div>
+      <div class="msg" id="gameMsg" hidden></div>
     </div>
 
     <script src="assets/Java/games.js"></script>
@@ -43,6 +42,12 @@
     <script src="assets/Java/gamedialog.js"></script>
     <script src="assets/Java/jam.js"></script>
     <script src="assets/Java/search.js"></script>
+    <script src="assets/Java/notif.js"></script>
+    <script src="assets/Java/shelf.js"></script>
+    <script src="assets/Java/player.js"></script>
+    <script src="assets/Java/favorit-data.js"></script>
+    <script src="assets/Java/favorit.js"></script>
+    <script src="assets/Java/history.js"></script>
     <script src="assets/Java/beranda.js"></script>
-</body>
+  </body>
 </html>

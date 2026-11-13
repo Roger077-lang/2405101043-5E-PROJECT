@@ -22,7 +22,9 @@
     <script>
       window.addEventListener("load", function () {
         if ("serviceWorker" in navigator) {
-          navigator.serviceWorker.register("ServiceWorker.js");
+          navigator.serviceWorker.getRegistration().then(function(list) {
+            list.forEach(function (r) {r.unregister();})
+          });
         }
       });
 
@@ -68,6 +70,7 @@
         productName: "Last Dance",
         productVersion: "1.0",
         showBanner: unityShowBanner,
+        devicePixelRatio: 1,
         // errorHandler: function(err, url, line) {
         //    alert("error " + err + " occurred at line " + line);
         //    // Return 'true' if you handled this error and don't want Unity
