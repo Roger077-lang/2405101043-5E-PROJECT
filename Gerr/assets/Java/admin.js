@@ -113,7 +113,7 @@
       art.style.setProperty("--c1", game.color[0]);
       art.style.setProperty("--c2", game.color[1]);
     }
-    if (game.icon) art.style.backgroundImage = "url('" + game.icon + "')";
+    if (game.icon) art.style.backgroundImage = "url('" + game.bg + "')";
     else art.textContent = game.letter || game.title.charAt(0);
     if (!isShown(game))
       art.appendChild(el("span", "card-badge hide", "Disembunyikan"));

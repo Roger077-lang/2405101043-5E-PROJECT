@@ -87,7 +87,7 @@
     }
     if (game.icon) {
       const img = document.createElement("img");
-      img.src = game.icon;
+      img.src = game.bg;
       img.alt = "";
       img.draggable = false;
       thumb.appendChild(img);

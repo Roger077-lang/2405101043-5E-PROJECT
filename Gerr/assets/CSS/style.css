@@ -965,7 +965,7 @@ body.page-admin {
 }
 .tile.active {
   box-shadow:
-    0 0 0 4px #fff,
+    0 0 0 1px #fff,
     0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
@@ -1371,12 +1371,12 @@ body.page-admin {
   font-size: 2rem;
   font-weight: 900;
   color: #fff;
-  background-color: #00000050;
+  background-color: #ffffff10;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-  border: 2px solid rgba(255, 255, 255, 2.55);
-  border-radius: 14px;
+  border: none;
+  border-radius: 10px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.75);
 }
 
