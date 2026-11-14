@@ -11,6 +11,7 @@
   box.className = "search-box";
   box.setAttribute("role", "dialog");
   box.setAttribute("aria-label", "Pencarian game");
+  box.tabIndex = -1;
 
   const input = document.createElement("input");
   input.className = "search-input";
@@ -52,7 +53,6 @@
       .map((r) => r.g);
   }
 
-  /* Hasil */
   let results = [];
   let active = 0;
 
@@ -159,7 +159,7 @@
     root.setAttribute("aria-hidden", "false");
     input.value = "";
     render();
-    input.focus();
+    box.focus({ preventScroll: true });
   }
 
   function close() {
