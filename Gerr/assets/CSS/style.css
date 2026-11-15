@@ -283,7 +283,7 @@ body.page-login .users {
   display: flex;
   gap: 0;
   position: relative;
-  width: min(900px, 92vw);
+  width: min(1200px, 92vw);
   height: min(40vh, 380px);
   margin-top: 20px;
   overflow: hidden;
@@ -986,7 +986,7 @@ body.page-admin {
 /* Shelf */
 .shelf {
   position: absolute;
-  left: 60px;
+  left: 50px;
   top: 100px;
   bottom: 30px;
   width: 173px;

@@ -97,8 +97,8 @@ const VISIBLE = 3;
 
 function layout() {
   const mobile = window.innerWidth <= 700;
-  const BIG = mobile ? 84 : 130;
-  const SMALL = mobile ? 54 : 84;
+  const BIG = mobile ? 90 : 150;
+  const SMALL = mobile ? 57 : 97;
   const GAP = mobile ? 10 : 14;
   const PAD = mobile ? 12 : 20;
   const half = Math.floor(n / 2);

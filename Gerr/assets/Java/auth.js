@@ -72,7 +72,6 @@ if (document.body.classList.contains("page-login"))
         saveAvatar(users[cur]);
         location.href = "admin.html";
       } else {
-        err.textContent = "Password salah. Coba lagi.";
         pass.select();
       }
     }
