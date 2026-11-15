@@ -131,7 +131,7 @@ body.page-login .user.sel .av,
 body.page-login .user:focus-visible .av {
   border-color: #ffffff;
   transform: scale(1.04);
-  box-shadow: 0 0 50px #1b8cff55;
+  box-shadow: 0 0 50px #ffffff90;
 }
 body.page-login .guest .av {
   background: radial-gradient(circle at 50% 50%, #3da5ff, #3da5ff);
@@ -966,14 +966,14 @@ body.page-admin {
   background: rgba(20, 24, 38, 0.9);
 }
 .tile.active {
-  box-shadow: 0 0 0 1.5px #fff;
+  box-shadow: 0 0 0 1.5px #ffffff90;
 }
 
-/* All Games */
+/* All Games grid */
 .page-dim {
   position: absolute;
   inset: 0;
-  background: rgba(8, 10, 18, 0.75);
+  background: rgba(8, 10, 18, 0.250);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
@@ -1171,6 +1171,28 @@ body.page-admin {
 .msg[hidden] {
   display: none;
 }
+/* All games bento */
+#gamesGrid {
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 180px;
+  grid-auto-flow: dense;
+  gap: 14px;
+}
+#gamesGrid .card:nth-child(8n + 1) { grid-column: span 2; }  /* lebar */
+#gamesGrid .card:nth-child(8n + 2) { grid-row: span 2; }     /* tinggi */
+#gamesGrid .card:nth-child(8n + 5) { grid-row: span 2; }
+#gamesGrid .card:nth-child(8n + 6) { grid-column: span 2; }
+
+#gamesGrid .card { border-radius: 18px; }
+#gamesGrid .card-link { position: absolute; inset: 0; }
+#gamesGrid .card-art { position: absolute; inset: 0; aspect-ratio: auto; }
+#gamesGrid .card-body {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 36px 16px 14px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+}
+#gamesGrid .card-badge { bottom: auto; top: 12px; }
 
 /* Mulai Game */
 .player {
@@ -1627,7 +1649,7 @@ body.page-admin {
     bottom: 20px;
   }
 
-  /* All Games */
+  /* All Games grid */
   .games-page {
     padding: 86px 16px 32px;
   }
@@ -1648,6 +1670,11 @@ body.page-admin {
   .card-title {
     font-size: 1rem;
   }
+   /* All Games bento */
+  #gamesGrid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 150px; }
+  #gamesGrid .card:nth-child(n) { grid-column: auto; grid-row: auto; }
+  #gamesGrid .card:nth-child(4n + 1) { grid-column: span 2; }
+  #gamesGrid .card:nth-child(4n + 2) { grid-row: span 2; }
 
   /* info game */
   .info {
