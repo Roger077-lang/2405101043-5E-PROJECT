@@ -14,10 +14,11 @@
     <div class="hero-fade"></div>
     <div class="page-dim"></div>
     <div class="lg-clock" id="clock"></div>
+
     <h1>Selamat Datang</h1>
-    <br />
     <p class="sub">Pilih metode Login anda</p>
     <br /><br />
+
     <div class="users" id="users">
       <button class="user add" type="button" data-role="add">
         <div class="av plus">+</div>
@@ -33,16 +34,17 @@
         </div>
         <small>Admin</small>
       </button>
+
+      <form class="pw" id="pw" autocomplete="off">
+        <input
+          type="password"
+          id="pass"
+          placeholder="Password admin"
+          aria-label="Password admin"
+        />
+        <p id="err"></p>
+      </form>
     </div>
-    <form class="pw" id="pw" autocomplete="off">
-      <input
-        type="password"
-        id="pass"
-        placeholder="Password admin"
-        aria-label="Password admin"
-      />
-      <p id="err"></p>
-    </form>
 
     <script src="assets/Java/auth.js"></script>
   </body>

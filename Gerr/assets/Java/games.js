@@ -20,7 +20,7 @@ const DEFAULT_GAMES = [
     id: "last-dance",
     title: "Last Dance",
     tagline: "Berdansalah dengan indah",
-    url: "assets/LastDance%20Web/index.html",
+    url: "assets/Games/LastDance%20Web/index.html",
     icon: "assets/Foto/IconGame/Logo%20LD.png",
     bg: "assets/Foto/BGgame/LastDanceBG.jpeg",
     color: ["#e8f3fb", "#ffffff"],
