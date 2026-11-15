@@ -8,18 +8,28 @@
   const grid = $("adminGrid");
   const countEl = $("adminCount");
   const msgEl = $("adminMsg");
-  const saveBtn = $("saveBtn");
+  const saveBtn = el("button", "sl-save", "Simpan perubahan");
+  saveBtn.type = "button";
+  const listPanel = document.querySelector(".sl-list");
+  const detail = $("slDetail");
 
   let data = ALL_GAMES.map((g) => ({ ...g }));
   let saved = data.map((g) => ({ ...g }));
   let filter = "all";
+  let query = "";
+  let selId = data.length ? data[0].id : null;
   let dirty = false;
   let firstRender = true;
   let msgTimer = null;
 
   const isShown = (g) => g.show !== false;
   const visible = () =>
-    data.filter((g) => filter === "all" || (filter === "on") === isShown(g));
+    data.filter(
+      (g) =>
+        (filter === "all" || (filter === "on") === isShown(g)) &&
+        g.title.toLowerCase().includes(query),
+    );
+  const cssUrl = (u) => "url(\"" + String(u).replace(/["\\]/g, "") + "\")";
 
   function el(tag, className, text) {
     const e = document.createElement(tag);
@@ -89,109 +99,158 @@
     return b;
   }
 
-  function makeCard(game, i, list) {
-    const card = el(
-      "div",
-      "card" + (game.url ? "" : " soon") + (isShown(game) ? "" : " is-hidden"),
-    );
-    card.style.setProperty("--i", i);
-
-    const link = el("div", "card-link");
-    link.tabIndex = 0;
-    link.setAttribute("role", "button");
-    link.setAttribute("aria-label", "Edit " + game.title);
-    link.addEventListener("click", () => openForm(game));
-    link.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        openForm(game);
-      }
-    });
-
-    const art = el("div", "card-art");
+  function paint(node, game, src) {
     if (game.color) {
-      art.style.setProperty("--c1", game.color[0]);
-      art.style.setProperty("--c2", game.color[1]);
+      node.style.setProperty("--c1", game.color[0]);
+      node.style.setProperty("--c2", game.color[1]);
     }
-    if (game.icon) art.style.backgroundImage = "url('" + game.bg + "')";
-    else art.textContent = game.letter || game.title.charAt(0);
-    if (!isShown(game))
-      art.appendChild(el("span", "card-badge hide", "Disembunyikan"));
-    else if (!game.url) art.appendChild(el("span", "card-badge", "Segera"));
+    if (src) node.style.backgroundImage = cssUrl(src);
+    else node.textContent = game.letter || game.title.charAt(0);
+  }
 
-    const body = el("div", "card-body");
-    body.appendChild(el("div", "card-title", game.title));
-    body.appendChild(el("div", "card-tag", game.tagline || ""));
+  function statusOf(g) {
+    if (!isShown(g)) return ["Disembunyikan", "off"];
+    if (!g.url) return ["Segera", "soon"];
+    return ["Tampil", "on"];
+  }
 
-    link.appendChild(art);
-    link.appendChild(body);
-    card.appendChild(link);
+  function makeRow(game, i) {
+    const [label, kind] = statusOf(game);
+    const row = el("div", "sl-row " + kind + (game.id === selId ? " sel" : ""));
+    row.style.setProperty("--i", i);
+    row.tabIndex = 0;
+    row.setAttribute("role", "option");
+    row.setAttribute("aria-selected", game.id === selId);
+    row.dataset.id = game.id;
 
-    const tools = el("div", "ad-tools");
+    const th = el("div", "sl-thumb");
+    paint(th, game, game.icon || game.bg);
+    const txt = el("div", "sl-txt");
+    txt.appendChild(el("div", "sl-name", game.title));
+    txt.appendChild(el("div", "sl-sub", game.tagline || ""));
+    row.append(th, txt, el("span", "sl-pill", label));
+
+    const pick = () => {
+      selId = game.id;
+      render();
+    };
+    row.addEventListener("click", pick);
+    row.addEventListener("dblclick", () => openForm(game));
+    return row;
+  }
+
+  function renderDetail(list) {
+    const g = data.find((x) => x.id === selId);
+    if (!g) {
+      listPanel.style.setProperty("--cv", "none");
+      const acts0 = el("div", "sl-acts");
+      acts0.appendChild(saveBtn);
+      detail.replaceChildren(
+        el("p", "games-empty", "Pilih game di daftar untuk melihat detailnya."),
+        acts0,
+      );
+      return;
+    }
+    const idx = data.indexOf(g);
+    const [label, kind] = statusOf(g);
+    const bgSrc = g.bg || g.icon;
+    listPanel.style.setProperty("--cv", bgSrc ? cssUrl(bgSrc) : "none");
+
+    const disc = el("div", "sl-disc" + (isShown(g) ? "" : " dim"));
+    paint(disc, g, g.bg || g.icon);
+    disc.appendChild(el("span", "sl-hole"));
+
+    const info = el("div", "sl-info");
+    info.append(
+      el("h2", "sl-title", g.title),
+      el("p", "sl-tag", g.tagline || ""),
+    );
+    const score = el("div", "sl-score");
+    const sc = el("div", "sl-score-txt");
+    sc.append(el("small", "", "Status"), el("b", "", label));
+    score.append(sc, el("span", "sl-rank " + kind, "#" + (idx + 1)));
+    info.appendChild(score);
+
+    const stats = el("div", "sl-stats");
+    [
+      ["#" + (idx + 1), "URUTAN", ""],
+      [isShown(g) ? "ON" : "OFF", "BERANDA", isShown(g) ? "hot" : ""],
+      [g.url ? "OK" : "\u2014", "LINK", ""],
+    ].forEach(([v, k, c]) => {
+      const s = el("div", "sl-stat");
+      s.append(el("b", "sl-ring " + c, v), el("small", "", k));
+      stats.appendChild(s);
+    });
+    info.appendChild(stats);
 
     const sw = el("label", "ad-switch");
     const cb = el("input");
     cb.type = "checkbox";
-    cb.checked = isShown(game);
+    cb.checked = isShown(g);
     cb.addEventListener("change", () => {
-      game.show = cb.checked;
+      g.show = cb.checked;
       markDirty();
       render();
     });
-    sw.appendChild(cb);
-    sw.appendChild(el("span", "", "Tampil di beranda"));
-    tools.appendChild(sw);
+    sw.append(cb, el("span", "", "Tampil di beranda"));
+    sw.classList.add("sl-sw");
 
-    const row = el("div", "ad-row");
-    row.appendChild(
-      mini("\u2190", "sq", "Geser lebih awal", () => move(game, -1), i === 0),
+    const pos = list.indexOf(g);
+    const acts = el("div", "sl-acts");
+    acts.append(
+      mini("\u2190", "sq", "Geser lebih awal", () => move(g, -1), pos <= 0),
+      mini("\u2192", "sq", "Geser lebih akhir", () => move(g, 1), pos === list.length - 1 || pos < 0),
+      mini("Hapus", "danger", "Hapus game", () => remove(g)),
     );
-    row.appendChild(
-      mini(
-        "\u2192",
-        "sq",
-        "Geser lebih akhir",
-        () => move(game, 1),
-        i === list.length - 1,
-      ),
-    );
-    row.appendChild(mini("Edit", "", "Edit game", () => openForm(game)));
-    row.appendChild(mini("Hapus", "danger", "Hapus game", () => remove(game)));
-    tools.appendChild(row);
+    const edit = el("button", "sl-editbtn", "Edit");
+    edit.type = "button";
+    edit.addEventListener("click", () => openForm(g));
+    info.append(edit, sw);
+    acts.appendChild(saveBtn);
 
-    card.appendChild(tools);
-    return card;
+    detail.replaceChildren(disc, info, acts);
   }
 
   function render() {
     const list = visible();
     countEl.textContent = list.length + " game";
-
-    const counts = {
-      all: data.length,
-      on: data.filter(isShown).length,
-      off: data.filter((g) => !isShown(g)).length,
-    };
+    if (!list.some((g) => g.id === selId)) selId = list.length ? list[0].id : null;
 
     if (!list.length) {
       grid.replaceChildren(
         el(
           "p",
           "games-empty",
-          filter === "all"
-            ? "Belum ada game. Tekan \u201CTambah Game\u201D untuk membuat yang pertama."
-            : "Tidak ada game di filter ini.",
+          data.length
+            ? "Tidak ada game yang cocok."
+            : "Belum ada game. Tekan \u201CTambah Game\u201D untuk membuat yang pertama.",
         ),
       );
     } else {
-      grid.replaceChildren(...list.map((g, i) => makeCard(g, i, list)));
+      grid.replaceChildren(...list.map((g, i) => makeRow(g, i)));
+      const cur = grid.querySelector(".sel");
+      if (cur && !firstRender) cur.scrollIntoView({ block: "nearest" });
     }
-
-    if (firstRender) {
-      firstRender = false;
-      setTimeout(() => grid.classList.add("static"), 900);
-    }
+    firstRender = false;
+    renderDetail(list);
   }
+
+  $("slSearch").addEventListener("input", (e) => {
+    query = e.target.value.trim().toLowerCase();
+    render();
+  });
+
+  grid.addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    e.preventDefault();
+    const list = visible();
+    const i = list.findIndex((g) => g.id === selId) + (e.key === "ArrowDown" ? 1 : -1);
+    if (!list[i]) return;
+    selId = list[i].id;
+    render();
+    const r = grid.querySelector(".sel");
+    if (r) r.focus();
+  });
 
   let formRoot = null,
     heading,
@@ -333,8 +392,13 @@
       if (!v.icon) delete g.icon;
       if (!v.bg) delete g.bg;
     } else {
+      const id = "game-" + Date.now().toString(36);
+      selId = id;
+      filter = "all";
+      query = "";
+      $("slSearch").value = "";
       data.push({
-        id: "game-" + Date.now().toString(36),
+        id,
         letter: title.charAt(0).toUpperCase(),
         color: ["#3da5ff", "#3da5ff"],
         show: true,

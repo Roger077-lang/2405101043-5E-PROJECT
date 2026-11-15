@@ -17,30 +17,41 @@
     <header id="topbar" data-page="admin" data-search="off"></header>
     <script src="assets/Java/topbar.js"></script>
 
-    <main class="games-page">
-      <div class="games-head">
+    <main class="games-page sl-page">
+      
+      <div class="sl">
+        <section class="sl-list">
+          <div class="games-head">
         <h1 class="games-title">Kelola Game</h1>
         <span class="games-count" id="adminCount"></span>
-      </div>
-
-      <div class="ad-bar">
-        <button class="ad-btn primary" type="button" id="addBtn">
-          + Tambah Game
-        </button>
-        <button class="ad-btn" type="button" id="saveBtn">
-          Simpan perubahan
-        </button>
-        <button class="ad-btn" type="button" id="resetBtn">
-          Reset ke default
-        </button>
         <span class="ad-msg" id="adminMsg" role="status"></span>
       </div>
+          <label class="sl-search">
+            <input
+              type="search"
+              id="slSearch"
+              placeholder="Cari judul game..."
+              autocomplete="off"
+            />
+          </label>
+          <div
+            class="sl-items"
+            id="adminGrid"
+            role="listbox"
+            aria-label="Daftar game"
+          ></div>
+          <div class="ad-bar sl-foot">
+            <button class="sl-add" type="button" id="resetBtn">
+              Reset ke default
+            </button>
+            <button class="sl-add" type="button" id="addBtn">
+              + Tambah Game
+            </button>
+          </div>
+        </section>
 
-      <section
-        class="games-grid"
-        id="adminGrid"
-        aria-label="Daftar game"
-      ></section>
+        <section class="sl-detail" id="slDetail" aria-live="polite"></section>
+      </div>
     </main>
 
     <script src="assets/Java/games.js"></script>
